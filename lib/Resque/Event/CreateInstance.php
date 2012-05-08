@@ -54,7 +54,7 @@ class Resque_Event_CreateInstance
      */
     public function getInstance()
     {
-        return $this->instance ?: null;
+        return $this->instance ? $this->instance : null;
     }
 }
 ?>
