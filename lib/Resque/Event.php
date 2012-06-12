@@ -1,13 +1,15 @@
 <?php
+namespace Resque;
+
 /**
  * Resque event/plugin system class
  *
  * @package		Resque/Event
- * @author		Chris Boulton <chris.boulton@interspire.com>
- * @copyright	(c) 2010 Chris Boulton
+ * @author		William POTTIER <wpottier@allprogrammic.com>
+ * @copyright	(c) 2012 William POTTIER
  * @license		http://www.opensource.org/licenses/mit-license.php
  */
-class Resque_Event
+class Event
 {
 	/**
 	 * @var array Array containing all registered callbacks, indexked by event name.

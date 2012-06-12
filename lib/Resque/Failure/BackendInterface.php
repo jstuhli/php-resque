@@ -1,13 +1,15 @@
 <?php
+namespace Resque\Failure;
+
 /**
  * Interface that all failure backends should implement.
  *
  * @package		Resque/Failure
- * @author		Chris Boulton <chris.boulton@interspire.com>
- * @copyright	(c) 2010 Chris Boulton
+ * @author		William POTTIER <wpottier@allprogrammic.com>
+ * @copyright	(c) 2012 William POTTIER
  * @license		http://www.opensource.org/licenses/mit-license.php
  */
-interface Resque_Failure_Interface
+interface BackendInterface
 {
 	/**
 	 * Initialize a failed job class and save it (where appropriate).

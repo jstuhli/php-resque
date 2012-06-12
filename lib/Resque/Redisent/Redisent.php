@@ -1,22 +1,14 @@
 <?php
+namespace Resque\Redisent;
+
+define('CRLF', sprintf('%s%s', chr(13), chr(10)));
+
 /**
  * Redisent, a Redis interface for the modest
  * @author Justin Poliey <jdp34@njit.edu>
  * @copyright 2009 Justin Poliey <jdp34@njit.edu>
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @package Redisent
- */
-
-define('CRLF', sprintf('%s%s', chr(13), chr(10)));
-
-/**
- * Wraps native Redis errors in friendlier PHP exceptions
- */
-class RedisException extends Exception {
-}
-
-/**
- * Redisent, a Redis interface for the modest among us
  */
 class Redisent {
 
@@ -55,7 +47,7 @@ class Redisent {
     function establishConnection() {
         $this->__sock = fsockopen($this->host, $this->port, $errno, $errstr);
         if (!$this->__sock) {
-            throw new Exception("{$errno} - {$errstr}");
+            throw new \Exception("{$errno} - {$errstr}");
         }
     }
 
@@ -73,7 +65,7 @@ class Redisent {
         for ($written = 0; $written < strlen($command); $written += $fwrite) {
             $fwrite = fwrite($this->__sock, substr($command, $written));
             if ($fwrite === FALSE) {
-                throw new Exception('Failed to write entire command to stream');
+                throw new \Exception('Failed to write entire command to stream');
             }
         }
 

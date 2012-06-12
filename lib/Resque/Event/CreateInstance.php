@@ -1,16 +1,18 @@
 <?php
+namespace Resque\Event;
+
 /**
  * Resque job instance creation event
  *
  * @package		Resque/Event
- * @author		Chris Boulton <chris.boulton@interspire.com>
- * @copyright	(c) 2010 Chris Boulton
+ * @author		William POTTIER <wpottier@allprogrammic.com>
+ * @copyright	(c) 2012 William POTTIER
  * @license		http://www.opensource.org/licenses/mit-license.php
  */
-class Resque_Event_CreateInstance
+class CreateInstance
 {
     /**
-     * @var Resque_Job The job that triggered the event
+     * @var \Resque\Job The job that triggered the event
      */
     protected $job;
 
@@ -22,7 +24,7 @@ class Resque_Event_CreateInstance
     /**
      * Instantiate a new instance of the event
      *
-     * @param Resque_Job $job The job that triggered the event
+     * @param \Resque\Job $job The job that triggered the event
      */
     public function __construct($job)
     {
@@ -30,9 +32,9 @@ class Resque_Event_CreateInstance
     }
 
     /**
-     * Get the Resque_Job instance that triggered the event.
+     * Get the \Resque\Job instance that triggered the event.
      *
-     * @return Resque_Job Instance of the job that triggered the event.
+     * @return \Resque\Job Instance of the job that triggered the event.
      */
     public function getJob()
     {

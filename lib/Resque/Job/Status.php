@@ -1,13 +1,17 @@
 <?php
+namespace Resque\Job;
+
+use Resque\Resque;
+
 /**
  * Status tracker/information for a job.
  *
  * @package		Resque/Job
- * @author		Chris Boulton <chris.boulton@interspire.com>
- * @copyright	(c) 2010 Chris Boulton
+ * @author		William POTTIER <wpottier@allprogrammic.com>
+ * @copyright	(c) 2012 William POTTIER
  * @license		http://www.opensource.org/licenses/mit-license.php
  */
-class Resque_Job_Status
+class Status
 {
 	const STATUS_WAITING = 1;
 	const STATUS_RUNNING = 2;

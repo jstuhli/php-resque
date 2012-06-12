@@ -1,0 +1,17 @@
+{
+    "name": "glit/resque",
+    "description": "PHP port of the ruby resque library. And some enhancement to delegate instanciation of job (usefull to work with the Symfony2 DIC for exemple). ",
+    "keywords": ["resque"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "William POTTIER",
+            "email": "wpottier@allprogrammic.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "Resque": "lib/Resque" }
+    },
+    "target-dir": "glit/resque"
+}

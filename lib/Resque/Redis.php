@@ -1,20 +1,27 @@
 <?php
-// Third- party apps may have already loaded Resident from elsewhere
-// so lets be careful.
-if(!class_exists('Redisent', false)) {
-	require_once dirname(__FILE__) . '/../Redisent/Redisent.php';
-}
+namespace Resque;
+
+use Resque\Redisent\Redisent;
+use Resque\Redisent\RedisException;
 
 /**
  * Extended Redisent class used by Resque for all communication with
  * redis. Essentially adds namespace support to Redisent.
  *
  * @package		Resque/Redis
- * @author		Chris Boulton <chris.boulton@interspire.com>
- * @copyright	(c) 2010 Chris Boulton
+ * @author		William POTTIER <wpottier@allprogrammic.com>
+ * @copyright	(c) 2012 William POTTIER
  * @license		http://www.opensource.org/licenses/mit-license.php
+ *
+ * @method exists
+ * @method select
+ * @method sadd
+ * @method rpush
+ * @method lpop
+ * @method llen
+ * @method smembers
  */
-class Resque_Redis extends Redisent
+class Redis extends Redisent
 {
     /**
      * Redis namespace

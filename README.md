@@ -1,4 +1,4 @@
-php-resque: PHP Resque Worker (and Enqueue) [![Build Status](https://secure.travis-ci.org/chrisboulton/php-resque.png)](http://travis-ci.org/chrisboulton/php-resque)
+php-resque: PHP Resque Worker (and Enqueue) [![Build Status](https://secure.travis-ci.org/glit/php-resque.png)](http://travis-ci.org/glit/php-resque)
 ===========================================
 
 Resque is a Redis-backed library for creating background jobs, placing
@@ -37,7 +37,7 @@ pre and post jobs
 
 ## Requirements ##
 
-* PHP 5.2+
+* PHP 5.3+
 * Redis 2.2+
 
 ## Jobs ##
@@ -45,8 +45,6 @@ pre and post jobs
 ### Queueing Jobs ###
 
 Jobs are queued as follows:
-
-    require_once 'lib/Resque.php';
 
 	// Required if redis is located elsewhere
 	Resque::setBackend('localhost:6379');
@@ -60,7 +58,7 @@ Jobs are queued as follows:
 
 Each job should be in it's own class, and include a `perform` method.
 
-	class My_Job
+	class MyJob extends \Resque\Job\AbstractInstance
 	{
 		public function perform()
 		{
@@ -81,7 +79,7 @@ Jobs can also have `setUp` and `tearDown` methods. If a `setUp` method
 is defined, it will be called before the `perform` method is run.
 The `tearDown` method if defined, will be called after the job finishes.
 
-	class My_Job
+	class MyJob extends \Resque\Job\AbstractInstance
 	{
 		public function setUp()
 		{
@@ -109,21 +107,21 @@ To track the status of a job, pass `true` as the fourth argument to
 `Resque::enqueue`. A token used for tracking the job status will be
 returned:
 
-	$token = Resque::enqueue('default', 'My_Job', $args, true);
+	$token = Resque::enqueue('default', 'MyJob', $args, true);
 	echo $token;
 
 To fetch the status of a job:
 
-	$status = new Resque_Job_Status($token);
+	$status = new \Resque\Job\Status($token);
 	echo $status->get(); // Outputs the status
 
-Job statuses are defined as constants in the `Resque_Job_Status` class.
+Job statuses are defined as constants in the `Resque\Job\Status` class.
 Valid statuses include:
 
-* `Resque_Job_Status::STATUS_WAITING` - Job is still queued
-* `Resque_Job_Status::STATUS_RUNNING` - Job is currently running
-* `Resque_Job_Status::STATUS_FAILED` - Job has failed
-* `Resque_Job_Status::STATUS_COMPLETE` - Job is complete
+* `\Resque\Job_Status::STATUS_WAITING` - Job is still queued
+* `\Resque\Job_Status::STATUS_RUNNING` - Job is currently running
+* `\Resque\Job_Status::STATUS_FAILED` - Job has failed
+* `\Resque\Job_Status::STATUS_COMPLETE` - Job is complete
 * `false` - Failed to fetch the status - is the token valid?
 
 Statuses are available for up to 24 hours after a job has completed
@@ -146,13 +144,13 @@ not having a single environment such as with Ruby, the PHP port makes
 
 To start a worker, it's very similar to the Ruby version:
 
-    $ QUEUE=file_serve php resque.php
+    $ QUEUE=file_serve ./bin/resque
 
 It's your responsibility to tell the worker which file to include to get
 your application underway. You do so by setting the `APP_INCLUDE` environment
 variable:
 
-   $ QUEUE=file_serve APP_INCLUDE=../application/init.php php resque.php
+   $ QUEUE=file_serve APP_INCLUDE=../application/init.php ./bin/resque
 
 Getting your application underway also includes telling the worker your job
 classes, by means of either an autoloader or including them.
@@ -163,8 +161,8 @@ The port supports the same environment variables for logging to STDOUT.
 Setting `VERBOSE` will print basic debugging information and `VVERBOSE`
 will print detailed information.
 
-    $ VERBOSE QUEUE=file_serve php resque.php
-    $ VVERBOSE QUEUE=file_serve php resque.php
+    $ VERBOSE QUEUE=file_serve ./bin/resque
+    $ VVERBOSE QUEUE=file_serve ./bin/resque
 
 ### Priorities and Queue Lists ###
 
@@ -185,14 +183,14 @@ iteration before the `warm_cache` queue is checked.
 All queues are supported in the same manner and processed in alphabetical
 order:
 
-    $ QUEUE=* php resque.php
+    $ QUEUE=* ./bin/resque
 
 ### Running Multiple Workers ###
 
 Multiple workers ca be launched and automatically worked by supplying
 the `COUNT` environment variable:
 
-	$ COUNT=5 php resque.php
+	$ COUNT=5 ./bin/resque
 
 ### Forking ###
 
@@ -238,7 +236,7 @@ You listen in on events (as listed below) by registering with `Resque_Event`
 and supplying a callback that you would like triggered when the event is
 raised:
 
-	Resque_Event::listen('eventName', [callback]);
+	Resque\Event::listen('eventName', [callback]);
 
 `[callback]` may be anything in PHP that is callable by `call_user_func_array`:
 
@@ -274,7 +272,7 @@ that was just initialized.
 #### beforeFork ####
 
 Called before php-resque forks to run a job. Argument passed contains the instance of
-`Resque_Job` for the job about to be run.
+`Resque\Job` for the job about to be run.
 
 `beforeFork` is triggered in the **parent** process. Any changes made will be permanent
 for as long as the worker lives.
@@ -309,7 +307,7 @@ to be marked as having failed.
 Called whenever a job fails. Arguments passed (in this order) include:
 
 * Exception - The exception that was thrown when the job failed
-* Resque_Job - The job that failed
+* Resque\Job - The job that failed
 
 #### afterEnqueue ####
 
@@ -319,12 +317,5 @@ Called after a job has been queued using the `Resque::enqueue` method. Arguments
 * Class - string containing the name of the class the job was scheduled in
 * Arguments - array of arguments supplied to the job
 
-## Contributors ##
-
-* chrisboulton
-* thedotedge
-* hobodave
-* scraton
-* KevBurnsJr
-* jmathai
-* dceballos
+## Thanks ##
+This version is based on the wonderful work of chrisbulton

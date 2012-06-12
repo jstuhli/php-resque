@@ -1,13 +1,15 @@
 <?php
+namespace Resque;
+
 /**
  * Resque statistic management (jobs processed, failed, etc)
  *
  * @package		Resque/Stat
- * @author		Chris Boulton <chris.boulton@interspire.com>
- * @copyright	(c) 2010 Chris Boulton
+ * @author		William POTTIER <wpottier@allprogrammic.com>
+ * @copyright	(c) 2012 William POTTIER
  * @license		http://www.opensource.org/licenses/mit-license.php
  */
-class Resque_Stat
+class Stat
 {
 	/**
 	 * Get the value of the supplied statistic counter for the specified statistic.

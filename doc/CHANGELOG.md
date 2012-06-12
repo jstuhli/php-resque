@@ -10,6 +10,7 @@
 * Fix lost jobs when there is more than one worker process started by the same parent process (salimane)
 * Move include for resque before APP_INCLUDE is loaded in, so that way resque is available for the app
 * Avoid working with dirty worker IDs (salimane)
+* Refactor to use PHP5.3 namespace and many others code enhancement
 
 
 ## 1.1 (2011-03-27) ##

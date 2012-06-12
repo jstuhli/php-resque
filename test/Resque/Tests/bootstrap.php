@@ -3,8 +3,8 @@
  * Resque test bootstrap file - sets up a test environment.
  *
  * @package		Resque/Tests
- * @author		Chris Boulton <chris.boulton@interspire.com>
- * @copyright	(c) 2010 Chris Boulton
+ * @author		William POTTIER <wpottier@allprogrammic.com>
+ * @copyright	(c) 2012 William POTTIER
  * @license		http://www.opensource.org/licenses/mit-license.php
  */
 define('CWD', dirname(__FILE__));
@@ -19,9 +19,7 @@ define('REDIS_CONF', TEST_MISC . '/redis.conf');
 require_once CWD . '/TestCase.php';
 
 // Include Resque
-require_once RESQUE_LIB . 'Resque.php';
-require_once RESQUE_LIB . 'Resque/Worker.php';
-require_once RESQUE_LIB . 'Resque/Redis.php';
+require_once RESQUE_LIB . 'autoload.php';
 
 // Attempt to start our own redis instance for tesitng.
 exec('which redis-server', $output, $returnVar);
@@ -45,7 +43,7 @@ if(!preg_match('#^\s*port\s+([0-9]+)#m', $config, $matches)) {
 	exit(1);
 }
 
-Resque::setBackend('localhost:' . $matches[1]);
+Resque\Resque::setBackend('localhost:' . $matches[1]);
 
 // Shutdown
 function killRedis($pid)
@@ -96,7 +94,7 @@ if(function_exists('pcntl_signal')) {
 	pcntl_signal(SIGTERM, 'sigint');
 }
 
-class Test_Job
+class Test_Job extends \Resque\Job\AbstractInstance
 {
 	public static $called = false;
 
@@ -111,7 +109,7 @@ class Failing_Job_Exception extends Exception
 
 }
 
-class Failing_Job
+class Failing_Job extends \Resque\Job\AbstractInstance
 {
 	public function perform()
 	{
@@ -124,7 +122,7 @@ class Test_Job_Without_Perform_Method
 
 }
 
-class Test_Job_With_SetUp
+class Test_Job_With_SetUp extends \Resque\Job\AbstractInstance
 {
 	public static $called = false;
 	public $args = false;
@@ -141,7 +139,7 @@ class Test_Job_With_SetUp
 }
 
 
-class Test_Job_With_TearDown
+class Test_Job_With_TearDown extends \Resque\Job\AbstractInstance
 {
 	public static $called = false;
 	public $args = false;

@@ -1,16 +1,12 @@
 <?php
+namespace Resque\Redisent;
+
 /**
  * Redisent, a Redis interface for the modest
  * @author Justin Poliey <jdp34@njit.edu>
  * @copyright 2009 Justin Poliey <jdp34@njit.edu>
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @package Redisent
- */
-
-require_once dirname(__FILE__) . '/Redisent.php';
-
-/**
- * A generalized Redisent interface for a cluster of Redis servers
  */
 class RedisentCluster {
 
@@ -92,7 +88,7 @@ class RedisentCluster {
 			return $this->aliases[$alias];
 		}
 		else {
-			throw new Exception("That Redisent alias does not exist");
+			throw new \Exception("That Redisent alias does not exist");
 		}
 	}
 
