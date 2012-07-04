@@ -148,18 +148,18 @@ class Job {
 
             $class = $this->payload['class'];
             $this->instance = new $class();
-
-            if(!($this->instance instanceof \Resque\Job\AbstractInstance)) {
-                $this->instance = null;
-                throw new Exception(
-                    'Job class ' . $this->payload['class'] . ' does not contain override \Resque\Job\AbstractInstance.'
-                );
-            }
-
-            $this->instance->setJob($this);
-            $this->instance->setArgs($this->getArguments());
-            $this->instance->setQueue($this->queue);
         }
+
+        if(!($this->instance instanceof \Resque\Job\AbstractInstance)) {
+            $this->instance = null;
+            throw new Exception(
+                'Job class ' . $this->payload['class'] . ' does not contain override \Resque\Job\AbstractInstance.'
+            );
+        }
+
+        $this->instance->setJob($this);
+        $this->instance->setArgs($this->getArguments());
+        $this->instance->setQueue($this->queue);
 
         return $this->instance;
     }
