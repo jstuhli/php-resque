@@ -56,4 +56,12 @@ class Failure
 	{
 		self::$backend = $backend;
 	}
+
+    public static function requeue($i) {
+        //TODO
+        //$faileds = \Resque\Resque::redis()->lrange('failed', 0, -1);
+        //$failed = json_decode($faileds[$i]);
+
+        //Resque::enqueue($failed->queue, $failed->payload->class, $failed->payload->args);
+    }
 }
