@@ -20,6 +20,10 @@ use Resque\Redisent\RedisException;
  * @method lpop
  * @method llen
  * @method smembers
+ * @method type
+ * @method keys
+ * @method lrange
+ * @method get
  */
 class Redis extends Redisent
 {
@@ -100,7 +104,11 @@ class Redis extends Redisent
 	    }
 	    self::$defaultNamespace = $namespace;
 	}
-	
+
+    public static function getNamespace() {
+        return self::$defaultNamespace;
+    }
+
 	/**
 	 * Magic method to handle all function requests and prefix key based
 	 * operations with the {self::$defaultNamespace} key prefix.
