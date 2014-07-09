@@ -56,6 +56,11 @@ class Worker
 	 */
 	private $child = null;
 
+    /**
+     * @var bool Fork before performing a job
+     */
+    private $forkJob = true;
+
 	/**
 	 * Return all workers known to Resque as instantiated instances.
 	 * @return array
@@ -114,19 +119,22 @@ class Worker
 		$this->id = $workerId;
 	}
 
-	/**
-	 * Instantiate a new worker, given a list of queues that it should be working
-	 * on. The list of queues should be supplied in the priority that they should
-	 * be checked for jobs (first come, first served)
-	 *
-	 * Passing a single '*' allows the worker to work on all queues in alphabetical
-	 * order. You can easily add new queues dynamically and have them worked on using
-	 * this method.
-	 *
-	 * @param string|array $queues String with a single queue name, array with multiple.
-	 */
-	public function __construct($queues)
+    /**
+     * Instantiate a new worker, given a list of queues that it should be working
+     * on. The list of queues should be supplied in the priority that they should
+     * be checked for jobs (first come, first served)
+     *
+     * Passing a single '*' allows the worker to work on all queues in alphabetical
+     * order. You can easily add new queues dynamically and have them worked on using
+     * this method.
+     *
+     * @param string|array $queues String with a single queue name, array with multiple.
+     * @param boolean      $forkJob Fork before running a job
+     */
+	public function __construct($queues, $forkJob = true)
 	{
+        $this->forkJob = $forkJob;
+
 		if(!is_array($queues)) {
 			$queues = array($queues);
 		}
@@ -298,7 +306,7 @@ class Worker
 	 */
 	private function fork()
 	{
-		if(!function_exists('pcntl_fork')) {
+		if(!$this->forkJob || !function_exists('pcntl_fork')) {
 			return false;
 		}
 
